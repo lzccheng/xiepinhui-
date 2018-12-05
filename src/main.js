@@ -4,12 +4,15 @@ import FastClick from 'fastclick'
 import router from "./router";
 import store from './store'
 import App from './App'
+import axios from 'axios'
 import { LoadingPlugin, ToastPlugin, ConfirmPlugin } from 'vux'
 Vue.use(LoadingPlugin)
 Vue.use(ConfirmPlugin)
 Vue.use(ToastPlugin, {position: 'top'})
 Vue.use(require('vue-wechat-title'))
 FastClick.attach(document.body)
+
+Vue.prototype.$http = axios
 
 
 Vue.config.productionTip = false

@@ -5,6 +5,14 @@ import Router from 'vue-router'
 import indexWrap from '@/page/index/indexWrap'
 import home from '@/page/index/home'
 
+//second
+import secondWrap from '@/page/second/secondWrap'
+import second from '@/page/second/second'
+
+//报名加入
+import joinWrap from '@/page/join/joinWrap'
+import joinIndex from '@/page/join/joinIndex'
+
 Vue.use(Router)
 
 let router = new Router({
@@ -22,6 +30,30 @@ let router = new Router({
       }],
       meta: {
         title: '首页'
+      }
+    },
+    {
+      path: '/second',
+      name: 'second',
+      component: secondWrap,
+      children: [{
+        path: '',
+        component: second
+      }],
+      meta: {
+        title: '招商合作'
+      }
+    },
+    {
+      path: '/join',
+      name: 'join',
+      component: joinWrap,
+      children: [{
+        path: '',
+        component: joinIndex
+      }],
+      meta: {
+        title: '报名加入'
       }
     },
     {

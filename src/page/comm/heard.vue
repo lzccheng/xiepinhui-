@@ -3,7 +3,7 @@
     <div class="content">
       <div class="img"></div>
       <ul class="nav">
-        <router-link :to="item.link"  v-for="(item,index) in routeList" :key="index" tag="li" >{{item.name}}</router-link>
+        <router-link :to="item.link" @click="tabIndexFn(index)" :class="tabIndex == index? 'router-link-active1':''"  v-for="(item,index) in routeList" :key="index" tag="li" >{{item.name}}</router-link>
       </ul>
     </div>
 
@@ -17,23 +17,30 @@ export default {
       active: 0,
       routeList: [
         {
-          link: "/",
+          link: "/index",
           name: "首页"
         },
         {
-          link: "/investment",
+          link: "/second",
           name: "招商合作"
         },
-        {
-          link: "/about",
-          name: "关于我们"
-        },
+        // {
+        //   link: "/about",
+        //   name: "关于我们"
+        // },
         {
           link: "/join",
           name: "加入我们"
         }
-      ]
+      ],
+      tabIndex: 0
     };
+  },
+  methods: {
+    tabIndexFn(i){
+      console.log(i)
+      this.tabIndex = i;
+    }
   }
 };
 </script>
