@@ -164,7 +164,9 @@ export default {
       ]
     };
   },
-  created() {}
+  created() {
+    console.log(this)
+  }
 };
 </script>
 <style lang="less" scoped>

@@ -124,14 +124,14 @@
       </div>
     </div>
     <!-- 支持 -->
-    <div class="zc">
+    <!-- <div class="zc">
       <div class="title"></div>
       <div class="zcitembox">
         <div class="zcitem" :class="item.style" v-for="(item,index) in zcArr" :key="index">
           {{item.title}}
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- 口号 -->
     <div class="newretail">
       <p class="top">
@@ -172,14 +172,14 @@ export default {
         return str.replace(/(^\s*)|(\s*$)/g, "");
       }
       if(this.contact_name=='' || this.tel=='' || this.experience=='' || this.address==''){
-        alert('必填信息不能为空');
+        this.$vux.toast.text('必填信息不能为空','top');
         return;
       }
       var that=this;
       var phoneReg = /(^1[3|4|5|7|8]\d{9}$)|(^09\d{8}$)/;
       var tel_user = Trim(that.tel);
       if (!phoneReg.test(tel_user)) {
-        alert('请输入有效的手机号！')
+        this.$vux.toast.text('请输入有效的手机号！','top');
         return;
       }//手机号判断
       this.$http.post('/api/website/leave_message', {
@@ -194,6 +194,8 @@ export default {
       })
       .then(function (response) {
         console.log(response);
+        
+        that.$vux.toast.text(response.data.msg,'top');
       })
       .catch(function (error) {
         console.log(error);
