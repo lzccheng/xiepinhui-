@@ -6,21 +6,48 @@
         <!-- <div class="title">手机开店&nbsp;&nbsp;就用鞋品荟</div>
         <div class="one">一对一辅导 手把手教学</div>
         <div class="text">联系电话：<a :href="`tel:${telArr[0]}`">{{telArr[0]}}</a>&nbsp;&nbsp;<a :href="`tel:${telArr[1]}`">{{telArr[1]}}</a></div>
-        <div class="yh180"></div>
-        <div class="codebox">
-          <div class="code">
+        <div class="yh180"></div> -->
+        <div class="contentNameBoxForm">
+            <div class="formBox">
+                <div class="itemForm">
+                    <label for="userName">姓名：</label>
+                    <input type="text" id="userName" placeholder="必填" v-model="userName">
+                </div>
+                <div class="itemForm" style="margin-left:0.44rem;">
+                    <label for="tel">手机号：</label>
+                    <input type="number" id="tel" placeholder="必填" v-model="tel">
+                </div>
+            </div>
+            <div class="formBox">
+                <div class="itemForm">
+                    <label for="jinyan">有无经验：</label>
+                    <input type="text" id="jinyan" placeholder="必填" v-model="jinyan">
+                </div>
+                <div class="itemForm" style="margin-left:0.44rem;">
+                    <label for="email">邮箱：</label>
+                    <input type="tel" id="email" placeholder="" v-model="email">
+                </div>
+            </div>
+            <div class="formBox">
+                <div class="oneF">
+                    <label for="address">地址：</label>
+                    <input type="text" id="address" placeholder="必填" v-model="address">
+                </div>
+                
+            </div>
+            <div class="formBox">
+                <div class="oneF">
+                    <label for="liuyan" style="line-height:1.4rem;vertical-align: top;">留言：</label>
+                    <textarea name="" id="liuyan" v-model="liuyan"></textarea>
+                </div>
+                
+            </div>
+            <div class="formBox btnSubmit" @click="submitFun">
+                提交
+            </div>
             
-            <div class="codeimg1"></div>
-          </div>
-          <div class="code">
-           
-            <div class="codeimg2"></div>
-          </div>
-          <div class="code">
-            
-            <div class="codeimg3"></div>
-          </div>
-        </div> -->
+        </div>
+        
       </div>
     </div>
     <!-- 介绍 -->
@@ -97,14 +124,14 @@
       </div>
     </div>
     <!-- 支持 -->
-    <div class="zc">
+    <!-- <div class="zc">
       <div class="title"></div>
       <div class="zcitembox">
         <div class="zcitem" :class="item.style" v-for="(item,index) in zcArr" :key="index">
           {{item.title}}
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- 口号 -->
     <div class="newretail">
       <p class="top">
@@ -127,49 +154,111 @@ export default {
   components: {},
   data() {
     return {
-      telArr: ["81654564", "81978324"],
-      zcArr: [
-        {
-          title: "标准装修风格",
-          style: "zcitem-bg1"
-        },
-        {
-          title: "店员培训",
-          style: "zcitem-bg2"
-        },
-        {
-          title: "开业指导",
-          style: "zcitem-bg1"
-        },
-        {
-          title: "营销推广",
-          style: "zcitem-bg2"
-        },
-        {
-          title: "售前售后400电话",
-          style: "zcitem-bg2"
-        },
-        {
-          title: "线上商城",
-          style: "zcitem-bg1"
-        },
-        {
-          title: "品牌宣传",
-          style: "zcitem-bg2"
-        },
-        {
-          title: "活动策划",
-          style: "zcitem-bg1"
-        }
-      ]
+      userName:'',
+      tel:'',
+      jinyan:'',
+      email:'',
+      address:'',
+      liuyan:''
     };
   },
   created() {
-    console.log(this)
+    
+  },
+  methods: {
+    submitFun(){
+      //去掉字符串前后所有空格：
+      function Trim(str) {
+        return str.replace(/(^\s*)|(\s*$)/g, "");
+      }
+      if(this.contact_name=='' || this.tel=='' || this.experience=='' || this.address==''){
+        this.$vux.toast.text('必填信息不能为空','top');
+        return;
+      }
+      var that=this;
+      var phoneReg = /(^1[3|4|5|7|8]\d{9}$)|(^09\d{8}$)/;
+      var tel_user = Trim(that.tel);
+      if (!phoneReg.test(tel_user)) {
+        this.$vux.toast.text('请输入有效的手机号！','top');
+        return;
+      }//手机号判断
+      this.$http.post('/api/website/leave_message', {
+        title: 'title',
+        contact_name:this.userName,
+        contact_email:this.email,
+        experience:this.jinyan,
+        contact: this.tel,
+        address:this.address,
+        message:this.liuyan,
+
+      })
+      .then(function (response) {
+        console.log(response);
+        
+        that.$vux.toast.text(response.data.msg,'top');
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+     }
   }
 };
 </script>
 <style lang="less" scoped>
+.contentNameBoxForm {
+    width: 12rem;
+    height: 5.4rem;
+    background: #fff;
+    margin-top: 0.46rem;
+    padding-top: 0.62rem;
+    padding-left: 0.26rem;
+}
+.formBox{
+  overflow: hidden;
+  margin-bottom: 0.2rem;
+}
+.oneF{
+  float: left;
+}
+.formBox input,.formBox textarea{
+  width: 9.98rem;
+  height: 0.48rem;
+  line-height: 0.48rem;
+  color: #666;
+  text-indent: 0.2rem;
+}
+.formBox textarea{
+  height: 1.4rem;
+}
+.itemForm{
+  float: left;
+}
+.itemForm label,.formBox label{
+  font-size: 0.2rem;
+  color: #333;
+  width: 1rem;
+  text-align: right;
+  display: inline-block;
+}
+.itemForm input{
+  width: 4.27rem;
+  height: 0.48rem;
+  line-height: 0.48rem;
+  color: #666;
+  text-indent: 0.2rem;
+}
+.btnSubmit{
+  width:1.2rem;
+  height: 0.4rem;
+  line-height: 0.4rem;
+  background: #61d8d0;
+  color: #fff;
+  text-align: center;
+  border-radius: 30px;
+  margin-left: 1rem;
+  cursor: pointer;
+}
 .home {
   position: relative;
   width: 100%;
@@ -235,43 +324,7 @@ export default {
       }
     }
 
-    .codebox {
-      width: 7.3rem;
-      overflow: hidden;
-      margin: 0 auto;
-
-      .code {
-        font-size: 0.2rem;
-        color: #666;
-        float: left;
-        width: 33.33%;
-
-        .codeimg1 {
-          width: 1.46rem;
-          height: 1.46rem;
-          background: url("~@/assets/images/index/app_img.png") no-repeat;
-          background-size: contain;
-        }
-
-        .codeimg2 {
-          width: 1.46rem;
-          height: 1.46rem;
-          background: url("~@/assets/images/index/swx_img.png") no-repeat;
-          background-size: contain;
-        }
-
-        .codeimg3 {
-          width: 1.46rem;
-          height: 1.46rem;
-          background: url("~@/assets/images/index/wx_img.png") no-repeat;
-          background-size: contain;
-        }
-
-        .codetext {
-          width: 0.99rem;
-        }
-      }
-    }
+    
   }
 
   .title {

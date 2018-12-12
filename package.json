@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "fastclick": "^1.0.6",
     "mockjs": "^1.0.1-beta3",
     "qs": "^6.5.2",

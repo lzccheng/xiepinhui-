@@ -13,6 +13,7 @@ module.exports = {
       '/api': {
         // target: 'http://www.xiepinhui.com.cn',
         target: 'https://api.dev.xiepinhui.com.cn',
+        // target: 'https://api.xiepinhui.com.cn',
         changeOrigin: true,
         pathRewrite: {
           "^/api" : "/"
@@ -63,7 +64,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '',
+    assetsPublicPath: '/',
 
     /**
      * Source Maps
