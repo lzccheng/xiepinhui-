@@ -61,7 +61,7 @@ function request(method) {
         });
         return;
       }
-      if (res.data.code === 2000) {
+      if (res.data.code === 200) {
         return [null, res.data]
       } else {
         return [res.data, null]

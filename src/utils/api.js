@@ -31,4 +31,12 @@ export const register = (data) => {
 export const register_sms = (data) => { 
   const url = `${domain}/user/register_sms`
   return POST(url,data)
+}
+//加入信息提交
+export const leave_message = (data) => { 
+  const url = `${domain}/website/leave_message`
+  return POST(url,data)
 } 
+export default {
+  leave_message
+}

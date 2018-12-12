@@ -1,5 +1,5 @@
 const env = process.env || {};
-const domain = 'http://dev.mobile.xiepinhui.com.cn'
+const domain = 'https://api.dev.xiepinhui.com.cn'
 
 let path = '/'
 let debug = true

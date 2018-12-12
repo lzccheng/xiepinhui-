@@ -21,7 +21,7 @@
             <div class="formBox">
                 <div class="itemForm">
                     <label for="jinyan">有无经验：</label>
-                    <input type="text" id="jinyan" placeholder="必填" v-model="jinyan">
+                    <input type="text" id="jinyan" placeholder="" v-model="jinyan">
                 </div>
                 <div class="itemForm" style="margin-left:0.44rem;">
                     <label for="email">邮箱：</label>
@@ -31,7 +31,7 @@
             <div class="formBox">
                 <div class="oneF">
                     <label for="address">地址：</label>
-                    <input type="text" id="address" placeholder="必填" v-model="address">
+                    <input type="text" id="address" placeholder="" v-model="address">
                 </div>
                 
             </div>
@@ -147,7 +147,7 @@
 
 <script>
 // import bottom from "@/components/bottom";
-
+import api from '@/utils/api.js';
 export default {
   name: "index",
   props: {},
@@ -163,15 +163,18 @@ export default {
     };
   },
   created() {
-    
+    console.log(api)
   },
   methods: {
-    submitFun(){
+    async submitFun(){
+      if(window.joinSubmit){
+        return this.$vux.toast.text('你已提交过，请勿重复提交！');
+      }
       //去掉字符串前后所有空格：
       function Trim(str) {
         return str.replace(/(^\s*)|(\s*$)/g, "");
       }
-      if(this.contact_name=='' || this.tel=='' || this.experience=='' || this.address==''){
+      if(this.contact_name=='' || this.tel==''){
         this.$vux.toast.text('必填信息不能为空','top');
         return;
       }
@@ -182,7 +185,7 @@ export default {
         this.$vux.toast.text('请输入有效的手机号！','top');
         return;
       }//手机号判断
-      this.$http.post('/api/website/leave_message', {
+      let  data = {
         title: 'title',
         contact_name:this.userName,
         contact_email:this.email,
@@ -190,17 +193,16 @@ export default {
         contact: this.tel,
         address:this.address,
         message:this.liuyan,
+      }
 
-      })
-      .then(function (response) {
-        console.log(response);
-        
-        that.$vux.toast.text(response.data.msg,'top');
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-
+      const [err , res] = await api.leave_message(data);
+      if(err){
+        return this.$vux.toast.text(err.msg);
+      }
+      if(res.code == 200){
+        window.joinSubmit = true;
+        return this.$vux.toast.text('提交成功！');
+      }
      }
   }
 };
@@ -227,6 +229,7 @@ export default {
   line-height: 0.48rem;
   color: #666;
   text-indent: 0.2rem;
+  border: 1px solid #ddd;
 }
 .formBox textarea{
   height: 1.4rem;
@@ -247,6 +250,7 @@ export default {
   line-height: 0.48rem;
   color: #666;
   text-indent: 0.2rem;
+  border: 1px solid #ddd;
 }
 .btnSubmit{
   width:1.2rem;
